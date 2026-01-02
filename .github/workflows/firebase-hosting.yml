@@ -30,8 +30,8 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/sa.json
         run: |
-          # change into the web folder so firebase reads pipeline-rep/web/firebase.json correctly
-          cd pipeline-rep/web
+          # change into the web folder so firebase reads web/firebase.json correctly
+          cd web
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             CHANNEL="preview-${{ github.head_ref || github.run_id }}"
             firebase deploy --only hosting --project pipeline-test-483100 --config firebase.json --message "CI preview $CHANNEL" --channel "$CHANNEL"
