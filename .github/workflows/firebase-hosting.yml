@@ -1,0 +1,22 @@
+name: Firebase Hosting CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Firebase Hosting (preview for PRs, production on main)
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        working-directory: pipeline-rep/web
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          channelId: "preview-${{ github.head_ref || github.run_id }}"
